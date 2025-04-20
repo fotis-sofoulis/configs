@@ -26,4 +26,11 @@ require("lazy").setup({
 	require("plugins.indent-blankline"),
 	require("plugins.misc"),
 	require("plugins.alpha"),
+}, {
+	ui = {
+		-- This sets a background for the Lazy UI when using transparent themes
+		backdrop = 100, -- how dim the backdrop should be. 0 = fully transparent, 100 = no transparency
+		border = "rounded",
+		-- winblend = 0, -- 0 = opaque, 100 = fully transparent (used for the Lazy window itself)
+	},
 })
