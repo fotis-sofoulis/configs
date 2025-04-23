@@ -26,7 +26,7 @@ return {
 				})
 			end,
 			keys = {
-				{ "<leader>w", ":Neotree toggle float<CR>", silent = true, desc = "Float File Explorer" },
+				{ "<leader>w", ":Neotree toggle float<CR>",         silent = true, desc = "Float File Explorer" },
 				{ "<leader>e", ":Neotree toggle position=left<CR>", silent = true, desc = "Left File Explorer" },
 				{
 					"<leader>ngs",
@@ -51,8 +51,8 @@ return {
 			enable_diagnostics = false,
 			-- enable_normal_mode_for_inputs = false,                             -- Enable normal mode for input dialogs.
 			open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
-			sort_case_insensitive = false, -- used when sorting files and directories in the tree
-			sort_function = nil, -- use a custom function for sorting files and directories in the tree
+			sort_case_insensitive = false,                            -- used when sorting files and directories in the tree
+			sort_function = nil,                                      -- use a custom function for sorting files and directories in the tree
 			-- sort_function = function (a,b)
 			--       if a.type == b.type then
 			--           return a.path > b.path
@@ -99,14 +99,14 @@ return {
 				git_status = {
 					symbols = {
 						-- Change type
-						added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-						modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+						added = "+", -- or "✚", but this is redundant info if you use git_status_colors on the name
+						modified = "M", -- or "", but this is redundant info if you use git_status_colors on the name
 						deleted = "✖", -- this can only be used in the git_status source
 						renamed = "󰁕", -- this can only be used in the git_status source
 						-- Status type
-						untracked = "",
-						ignored = "",
-						unstaged = "󰄱",
+						untracked = "?",
+						ignored = "I",
+						unstaged = "U",
 						staged = "",
 						conflict = "",
 					},
@@ -138,7 +138,7 @@ return {
 			commands = {},
 			window = {
 				position = "left",
-				width = 40,
+				width = 32,
 				mapping_options = {
 					noremap = true,
 					nowait = true,
@@ -229,11 +229,11 @@ return {
 					},
 				},
 				follow_current_file = {
-					enabled = false, -- This will find and focus the file in the active buffer every time
+					enabled = false,        -- This will find and focus the file in the active buffer every time
 					--               -- the current file is changed while the tree is open.
 					leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
 				},
-				group_empty_dirs = false, -- when true, empty folders will be grouped together
+				group_empty_dirs = false,   -- when true, empty folders will be grouped together
 				hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
 				-- in whatever position is specified in window.position
 				-- "open_current",  -- netrw disabled, opening a directory opens within the
