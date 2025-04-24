@@ -10,7 +10,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 vim.opt.rtp:prepend(lazypath)
-
+vim.diagnostic.config({ virtual_text = true })
 require("lazy").setup({
 	require("plugins.neotree"),
 	require("plugins.colortheme"),
@@ -33,4 +33,19 @@ require("lazy").setup({
 		border = "rounded",
 		-- winblend = 0, -- 0 = opaque, 100 = fully transparent (used for the Lazy window itself)
 	},
+})
+
+-- Change popup menu, mason and lazy background and foreground
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "#24273a", fg = "#cdd6f4", blend = 0 })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#24273a", fg = "#cdd6f4", blend = 0 })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#24273a", fg = "#cdd6f4", blend = 0 })
+
+-- Autosave file on InsertLeave and TextChanged
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+	pattern = "*",
+	callback = function()
+		if vim.bo.modified then
+			vim.cmd("silent! write")
+		end
+	end,
 })

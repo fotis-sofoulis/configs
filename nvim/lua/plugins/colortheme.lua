@@ -36,7 +36,15 @@ return {
 				-- miscs = {}, -- Uncomment to turn off hard-coded styles
 			},
 			color_overrides = {},
-			custom_highlights = {},
+			custom_highlights = function(colors)
+				return {
+
+					DiagnosticVirtualTextError = { bg = colors.base, fg = colors.red },
+					DiagnosticVirtualTextWarn = { bg = colors.base, fg = colors.yellow },
+					DiagnosticVirtualTextInfo = { bg = colors.base, fg = colors.sky },
+					DiagnosticVirtualTextHint = { bg = colors.base, fg = colors.teal },
+				}
+			end,
 			default_integrations = true,
 			integrations = {
 				cmp = true,
@@ -45,6 +53,26 @@ return {
 				telescope = true,
 				treesitter = true,
 				notify = false,
+				native_lsp = {
+					enabled = true,
+					virtual_text = {
+						errors = { "italic" },
+						hints = { "italic" },
+						warnings = { "italic" },
+						information = { "italic" },
+						ok = { "italic" },
+					},
+					underlines = {
+						errors = { "underline" },
+						hints = { "underline" },
+						warnings = { "underline" },
+						information = { "underline" },
+						ok = { "underline" },
+					},
+					inlay_hints = {
+						background = true,
+					},
+				},
 				mini = {
 					enabled = true,
 					indentscope_color = "",
@@ -57,19 +85,3 @@ return {
 		vim.cmd.colorscheme("catppuccin")
 	end,
 }
--- return {
---     'shaunsingh/nord.nvim',
---     lazy = false,
---     priority = 1000,
---     config = function()
---         vim.g.nord_contrast = true
---         vim.g.nord_borders = false
---         vim.g.nord_disable_background = true
---         vim.g.nord_italic = false
---         vim.g.nord_uniform_diff_background = true
---         vim.g.nord_bold = false
---
---         require('nord').set()
---     end
--- }
---

@@ -26,7 +26,7 @@ return {
 				})
 			end,
 			keys = {
-				{ "<leader>w", ":Neotree toggle float<CR>",         silent = true, desc = "Float File Explorer" },
+				{ "<leader>w", ":Neotree toggle float<CR>", silent = true, desc = "Float File Explorer" },
 				{ "<leader>e", ":Neotree toggle position=left<CR>", silent = true, desc = "Left File Explorer" },
 				{
 					"<leader>ngs",
@@ -39,10 +39,11 @@ return {
 	},
 	config = function()
 		-- If you want icons for diagnostic errors, you'll need to define them somewhere:
-		vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-		vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-		vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-		vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+		-- vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+		-- vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+		-- vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+		-- vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
 
 		require("neo-tree").setup({
 			close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
@@ -51,8 +52,8 @@ return {
 			enable_diagnostics = false,
 			-- enable_normal_mode_for_inputs = false,                             -- Enable normal mode for input dialogs.
 			open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
-			sort_case_insensitive = false,                            -- used when sorting files and directories in the tree
-			sort_function = nil,                                      -- use a custom function for sorting files and directories in the tree
+			sort_case_insensitive = false, -- used when sorting files and directories in the tree
+			sort_function = nil, -- use a custom function for sorting files and directories in the tree
 			-- sort_function = function (a,b)
 			--       if a.type == b.type then
 			--           return a.path > b.path
@@ -229,11 +230,11 @@ return {
 					},
 				},
 				follow_current_file = {
-					enabled = false,        -- This will find and focus the file in the active buffer every time
+					enabled = false, -- This will find and focus the file in the active buffer every time
 					--               -- the current file is changed while the tree is open.
 					leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
 				},
-				group_empty_dirs = false,   -- when true, empty folders will be grouped together
+				group_empty_dirs = false, -- when true, empty folders will be grouped together
 				hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
 				-- in whatever position is specified in window.position
 				-- "open_current",  -- netrw disabled, opening a directory opens within the
