@@ -20,6 +20,9 @@ return {
 		-- Hints keybinds
 		"folke/which-key.nvim",
 		opts = {
+			triggers = {
+				{ "<auto>", mode = "nso" },
+			},
 			-- win = {
 			--   border = {
 			--     { '┌', 'FloatBorder' },
