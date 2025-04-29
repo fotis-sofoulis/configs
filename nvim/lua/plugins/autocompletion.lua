@@ -67,7 +67,10 @@ return { -- Autocompletion
           luasnip.lsp_expand(args.body)
         end,
       },
-      completion = { completeopt = "menu,menuone,noinsert" },
+      completion = {
+        completeopt = "menu,menuone,noinsert",
+        keyword_length = 4,
+      },
       -- window = {
       --     completion = cmp.config.window.bordered(),
       --     documentation = cmp.config.window.bordered(),

@@ -50,7 +50,7 @@ vim.keymap.set("n", "<Right>", ":vertical resize +2<CR>", opts)
 -- Buffers
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", opts)
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", opts)
-vim.keymap.set("n", "<leader>x", ":Bdelete!<CR>", opts) -- close buffer
+vim.keymap.set("n", "<leader>x", ":Bdelete!<CR>", opts)   -- close buffer
 vim.keymap.set("n", "<leader>b", "<cmd> enew <CR>", opts) -- new buffer
 
 -- Increment/decrement numbers
@@ -58,9 +58,9 @@ vim.keymap.set("n", "<leader>+", "<C-a>", opts) -- increment
 vim.keymap.set("n", "<leader>-", "<C-x>", opts) -- decrement
 
 -- Window management
-vim.keymap.set("n", "<leader>v", "<C-w>v", opts) -- split window vertically
-vim.keymap.set("n", "<leader>h", "<C-w>s", opts) -- split window horizontally
-vim.keymap.set("n", "<leader>se", "<C-w>=", opts) -- make split windows equal width & height
+vim.keymap.set("n", "<leader>v", "<C-w>v", opts)      -- split window vertically
+vim.keymap.set("n", "<leader>h", "<C-w>s", opts)      -- split window horizontally
+vim.keymap.set("n", "<leader>se", "<C-w>=", opts)     -- make split windows equal width & height
 vim.keymap.set("n", "<leader>xs", ":close<CR>", opts) -- close current split window
 
 -- Navigate between splits
@@ -70,10 +70,10 @@ vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", opts)
 vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", opts)
 
 -- Tabs
-vim.keymap.set("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
+vim.keymap.set("n", "<leader>to", ":tabnew<CR>", opts)   -- open new tab
 vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", opts) -- close current tab
-vim.keymap.set("n", "<leader>tn", ":tabn<CR>", opts) --  go to next tab
-vim.keymap.set("n", "<leader>tp", ":tabp<CR>", opts) --  go to previous tab
+vim.keymap.set("n", "<leader>tn", ":tabn<CR>", opts)     --  go to next tab
+vim.keymap.set("n", "<leader>tp", ":tabp<CR>", opts)     --  go to previous tab
 
 -- Toggle line wrapping
 vim.keymap.set("n", "<leader>lw", "<cmd>set wrap!<CR>", opts)
@@ -85,9 +85,21 @@ vim.keymap.set("v", "<S-Tab>", "<gv", opts)
 -- Remove tab in insert mode
 vim.keymap.set("i", "<S-Tab>", "<C-d>", opts)
 
--- Move text up and down
-vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", opts)
+-- Normal mode: move line down, add line at EOF if needed
+vim.keymap.set("n", "<A-j>", function()
+	local lnum = vim.fn.line(".")
+	local last = vim.fn.line("$")
+	if lnum == last then
+		vim.api.nvim_buf_set_lines(0, last, last, true, { "" }) -- add blank line
+	end
+	vim.cmd("m .+1")
+	vim.cmd("normal! ==")
+end, opts)
+
+-- Normal mode: move line up
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", opts)
+
+-- Move text up and down in visual mode
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 
@@ -127,5 +139,5 @@ vim.keymap.set("n", "[d", function()
 end, { desc = "Previous Diagnostic" })
 
 -- Save and load session
-vim.keymap.set("n", "<leader>ss", ":mksession! .session.vim<CR>", { noremap = true, silent = false })
 vim.keymap.set("n", "<leader>sl", ":source .session.vim<CR>", { noremap = true, silent = false })
+vim.keymap.set("n", "<leader>ss", ":mksession! .session.vim<CR>", { noremap = true, silent = false })
