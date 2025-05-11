@@ -69,7 +69,7 @@ return { -- Autocompletion
       },
       completion = {
         completeopt = "menu,menuone,noinsert",
-        keyword_length = 4,
+        keyword_length = 3,
       },
       -- window = {
       --     completion = cmp.config.window.bordered(),

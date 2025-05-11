@@ -43,6 +43,7 @@ return {
 					DiagnosticVirtualTextWarn = { bg = colors.base, fg = colors.yellow },
 					DiagnosticVirtualTextInfo = { bg = colors.base, fg = colors.sky },
 					DiagnosticVirtualTextHint = { bg = colors.base, fg = colors.teal },
+
 				}
 			end,
 			default_integrations = true,
