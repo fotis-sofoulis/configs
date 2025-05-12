@@ -47,3 +47,25 @@ The key plugins included as of right now are:
 - Utilities/QoL: `comments`, `gitsigns`, `indent-blankline`
 - More to come...
 
+## Linux Hypervisor Setup
+
+---
+
+This configuration serves as the foundation for a homelab environment. For Ubuntu-based systems, install these required packages:
+
+```bash
+sudo apt update
+sudo apt -y install \
+  bridge-utils \
+  libvirt-clients \
+  libvirt-daemon-system \
+  qemu \
+  qemu-kvm \
+  cpu-checker
+```
+
+After installation, verify kvm support:
+
+```bash
+kvm-ok
+```
