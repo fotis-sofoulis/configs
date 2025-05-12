@@ -57,7 +57,7 @@ sudo apt -y install \
   qemu-kvm \
   cpu-checker \
   virt-manager \
-  virt-install
+  virtinst
 ```
 
 After installation, verify kvm support:
