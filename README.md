@@ -28,3 +28,22 @@ sudo make install
 # Check the version to confirm installation:
 nvim --version
 ```
+
+### Setup Details
+
+This configuration uses **Lazy.nvim** with a modified [Kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) base.
+
+I recommend following the video tutorial from **hendrikmi** -> [Full Neovim Setup from Scratch in 2025](https://youtu.be/KYDG3AHgYEs?si=CC1vhtPelHP7AC5V).
+
+The key plugins included as of right now are:
+
+- Colortheme: `catppuccin`
+- Starting Screen: `alpha`
+- Statusline: `lualine`
+- Tabs: `bufferline`
+- Syntax Highlights: `treesitter`
+- Search: `telescope`
+- LSP setup: `lsp`, `autocompletion`, `autoformatting`
+- Utilities/QoL: `comments`, `gitsigns`, `indent-blankline`
+- More to come...
+
