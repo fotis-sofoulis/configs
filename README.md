@@ -1,14 +1,10 @@
 # Configs
 
----
-
 This repository contains my configuration files, scripts and useful installation instructions.
 
 This project was inspired by the work of [hendrikmi](https://github.com/hendrikmi/dotfiles).
 
 ## Neovim
-
----
 
 ### Installation
 
@@ -48,8 +44,6 @@ The key plugins included as of right now are:
 - More to come...
 
 ## Linux Hypervisor Setup
-
----
 
 This configuration serves as the foundation for a homelab environment. For Ubuntu-based systems, install these required packages:
 
