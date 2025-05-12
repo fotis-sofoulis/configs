@@ -55,7 +55,9 @@ sudo apt -y install \
   libvirt-daemon-system \
   qemu \
   qemu-kvm \
-  cpu-checker
+  cpu-checker \
+  virt-manager \
+  virt-install
 ```
 
 After installation, verify kvm support:
