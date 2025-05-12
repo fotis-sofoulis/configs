@@ -76,7 +76,7 @@ sudo systemctl start libvirtd
 # sudo systemctl enable libvirtd # Enable if you want it to start on computer startup
 ```
 
-3. Adjust ownership and user permissions for libvirtd
+3. Adjust ownership and user permissions for libvirtd \
 *Note: The exact commands may vary depending on your Linux distribution.*
 
 ```bash
@@ -86,7 +86,7 @@ chown $USER:$USER ~/.config/libvirt/libvirt.conf
 sudo usermod -aG libvirt $USER                               
 ```
 
-4. Activate group changes:
+4. Activate group changes: \
 *Note: If issues persist, reboot as a last resort.*
 
 ```bash
