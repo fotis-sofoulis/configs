@@ -60,8 +60,36 @@ sudo apt -y install \
   virtinst
 ```
 
-After installation, verify kvm support:
+### Post installation
+
+1. Verify kvm support:
 
 ```bash
 kvm-ok
+```
+
+2. Check libvirtd status and if inactive start it:
+
+```bash
+sudo systemctl status libvirtd
+sudo systemctl start libvirtd
+# sudo systemctl enable libvirtd # Enable if you want it to start on computer startup
+```
+
+3. Adjust ownership and user permissions for libvirtd
+*Note: The exact commands may vary depending on your Linux distribution.*
+
+```bash
+sudo cp -rv /etc/libvirt/libvirt.conf ~/.config/libvirt/
+chown $USER:$USER ~/.config/libvirt/libvirt.conf
+# Additionally, add the current user to the libvirtd group for proper permissions
+sudo usermod -aG libvirt $USER                               
+```
+
+4. Activate group changes:
+*Note: If issues persist, reboot as a last resort.*
+
+```bash
+su - $USER
+id | grep libvirt # Verify the group is now listed
 ```
