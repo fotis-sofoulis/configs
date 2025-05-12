@@ -3,9 +3,10 @@
 ---
 
 This repository contains my configuration files, scripts and useful installation instructions.
+
 This project was inspired by the work of [hendrikmi](https://github.com/hendrikmi/dotfiles).
 
-## Neovim Setup
+## Neovim
 
 ---
 
