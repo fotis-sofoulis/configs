@@ -2,15 +2,13 @@ return { -- LSP Configuration & Plugins
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		-- Automatically install LSPs and related tools to stdpath for neovim
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
+		{ "mason-org/mason.nvim", config = true },
+		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-
 		-- Useful status updates for LSP.
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{
 			"j-hui/fidget.nvim",
-			tag = "v1.4.0",
 			opts = {
 				progress = {
 					display = {
@@ -24,6 +22,8 @@ return { -- LSP Configuration & Plugins
 				},
 			},
 		},
+
+		"hrsh7th/cmp-nvim-lsp",
 	},
 	config = function()
 		vim.api.nvim_create_autocmd("LspAttach", {
@@ -88,16 +88,33 @@ return { -- LSP Configuration & Plugins
 				--
 				-- When you move your cursor, the highlights will be cleared (the second autocommand).
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				if client and client.server_capabilities.documentHighlightProvider then
+				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then 
+					local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						buffer = event.buf,
+						group = highlight_augroup,
 						callback = vim.lsp.buf.document_highlight,
 					})
 
 					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 						buffer = event.buf,
+						group = highlight_augroup,
 						callback = vim.lsp.buf.clear_references,
 					})
+
+					vim.api.nvim_create_autocmd('LspDetach', {
+						group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+						callback = function(event2)
+						  vim.lsp.buf.clear_references()
+						  vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+						end,
+					})
+				end
+
+				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+					map('<leader>th', function()
+						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+					end, '[T]oggle Inlay [H]ints')
 				end
 			end,
 		})
@@ -108,28 +125,23 @@ return { -- LSP Configuration & Plugins
 		-- Enable the following language servers
 		local servers = {
 			lua_ls = {
-				-- cmd = {...},
-				-- filetypes { ...},
-				-- capabilities = {},
 				settings = {
 					Lua = {
-						runtime = { version = "LuaJIT" },
-						workspace = {
-							checkThirdParty = false,
-							-- Tells lua_ls where to find all the Lua files that you have loaded
-							-- for your neovim configuration.
-							library = {
-								"${3rd}/luv/library",
-								unpack(vim.api.nvim_get_runtime_file("", true)),
-							},
-							-- If lua_ls is really slow on your computer, you can try this instead:
-							-- library = { vim.env.VIMRUNTIME },
-						},
 						completion = {
 							callSnippet = "Replace",
 						},
-						telemetry = { enable = false },
-						diagnostics = { disable = { "missing-fields" } },
+						runtime = { version = "LuaJIT" },
+						workspace = {
+							checkThirdParty = false,
+							library = vim.api.nvim_get_runtime_file("", true),
+						},
+						diagnostics = {
+							globals = { "vim" },
+							disable = { "missing-fields" },
+						},
+						format = {
+							enable = false,
+						},
 					},
 				},
 			},
@@ -149,23 +161,8 @@ return { -- LSP Configuration & Plugins
 					},
 				},
 			},
-			-- basedpyright = {
-			--   -- Config options: https://github.com/DetachHead/basedpyright/blob/main/docs/settings.md
-			--   settings = {
-			--     basedpyright = {
-			--       disableOrganizeImports = true, -- Using Ruff's import organizer
-			--       disableLanguageServices = false,
-			--       analysis = {
-			--         ignore = { '*' },                 -- Ignore all files for analysis to exclusively use Ruff for linting
-			--         typeCheckingMode = 'off',
-			--         diagnosticMode = 'openFilesOnly', -- Only analyze open files
-			--         useLibraryCodeForTypes = true,
-			--         autoImportCompletions = true,     -- whether pyright offers auto-import completions
-			--       },
-			--     },
-			--   },
-			-- },
 			ruff = {},
+			gopls = {},
 			jsonls = {},
 			sqlls = {},
 			terraformls = {},
@@ -173,43 +170,17 @@ return { -- LSP Configuration & Plugins
 			bashls = {},
 			dockerls = {},
 			docker_compose_language_service = {},
-			-- tailwindcss = {},
-			-- graphql = {},
-			-- html = { filetypes = { 'html', 'twig', 'hbs' } },
-			-- cssls = {},
-			-- ltex = {},
-			-- texlab = {},
 		}
 
 		-- Ensure the servers and tools above are installed
-		require("mason").setup({
-			ui = {
-				-- This sets a background for the Lazy UI when using transparent themes
-				backdrop = 100, -- how dim the backdrop should be. 0 = fully transparent, 100 = no transparency
-				border = "rounded",
-				-- winblend = 0, -- 0 = opaque, 100 = fully transparent (used for the Lazy window itself)
-			},
-		})
-
-		-- You can add other tools here that you want Mason to install
-		-- for you, so that they are available from within Neovim.
 		local ensure_installed = vim.tbl_keys(servers or {})
-		vim.list_extend(ensure_installed, {
-			"stylua", -- Used to format lua code
-		})
+
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-		require("mason-lspconfig").setup({
-			handlers = {
-				function(server_name)
-					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for tsserver)
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
-			},
-		})
+		for server, cfg in pairs(servers) do
+			cfg.capabilities = vim.tbl_deep_extend("force", {}, capabilities, cfg.capabilities or {})
+			vim.lsp.config(server, cfg)
+			vim.lsp.enable(server)
+		end
 	end,
 }
