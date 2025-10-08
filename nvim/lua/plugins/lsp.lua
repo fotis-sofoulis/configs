@@ -164,7 +164,7 @@ return { -- LSP Configuration & Plugins
 			ruff = {},
 			gopls = {},
 			jsonls = {},
-			sqls = {},
+			sqlls = {},
 			terraformls = {},
 			yamlls = {},
 			bashls = {},
