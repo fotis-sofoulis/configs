@@ -164,7 +164,15 @@ return { -- LSP Configuration & Plugins
 			ruff = {},
 			gopls = {},
 			jsonls = {},
-			sqlls = {},
+			sqls = {
+				settings = {
+					sqls = {
+						connections = {
+							{ driver = "postgresql" },
+						},
+					},
+				},
+			},
 			terraformls = {},
 			yamlls = {},
 			bashls = {},

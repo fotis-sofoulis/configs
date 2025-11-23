@@ -58,4 +58,22 @@ return {
 			require("colorizer").setup()
 		end,
 	},
+	{
+		"olexsmir/gopher.nvim",
+		ft = "go", -- only load for Go files
+		build = function()
+			vim.cmd([[silent! GoInstallDeps]]) -- installs gomodifytags, iferr, etc.
+		end,
+		config = function()
+			require("gopher").setup({
+				commands = {
+					go = "go",
+					gomodifytags = "gomodifytags",
+					gotests = "gotests",
+					impl = "impl",
+					iferr = "iferr", -- the one you want :)
+				},
+			})
+		end,
+	},
 }
